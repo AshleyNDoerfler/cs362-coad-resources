@@ -40,7 +40,7 @@ rails db:seed
 Start the app:
 
 ```
-rails server
+rails server -b 0.0.0.0 (http://localhost:3000/)
 ```
 
 ## Testing
