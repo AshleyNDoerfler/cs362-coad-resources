@@ -4,6 +4,8 @@ This is the GitHub repository for the Central Oregon Community Organizations Act
 in Disaster (COAD) help service system. It connects people in need with resources
 made available by members of Community Organizations Active in Disaster.
 
+"docker compose run --service-ports --rm coad bash"
+
 ## Development
 
 Fork the repository:
