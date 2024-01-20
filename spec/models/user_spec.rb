@@ -6,4 +6,9 @@ RSpec.describe User, type: :model do
     User.new
   end
 
+  it "has an email" do
+    user = User.new
+    expect(user).to respond_to(:email)
+  end
+
 end
