@@ -1,3 +1,4 @@
+# The User represents the individuals within the COAD help service system
 class User < ApplicationRecord
 
   enum role: [:admin, :organization]

@@ -1,3 +1,5 @@
+# The ResourceCategory represents the category of resources available within the COAD help service.
+# It is used to organize Tickets by resource categories.
 class ResourceCategory < ApplicationRecord
 
   has_and_belongs_to_many :organizations

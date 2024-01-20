@@ -1,3 +1,5 @@
+# The Region represents the geographical regions whithin the COAD system.
+# It is used to organize Tickets by location
 class Region < ApplicationRecord
 
   has_many :tickets
