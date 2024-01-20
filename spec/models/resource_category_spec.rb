@@ -14,4 +14,8 @@ RSpec.describe ResourceCategory, type: :model do
     expect(ResourceCategory.new).to respond_to(:active)
   end
 
+  it "is active by default" do
+    expect(ResourceCategory.new.active).to eq(true)
+  end
+
 end
