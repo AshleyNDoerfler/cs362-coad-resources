@@ -53,6 +53,12 @@ This project uses RSpec for testing.
 rspec
 ```
 
+or (if receiving errors)
+
+```
+bundle exec rspec
+```
+
 You can also run a specific directory of tests or file by supplying its name, like so:
 
 ```
