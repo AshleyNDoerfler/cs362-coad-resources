@@ -11,6 +11,11 @@ RSpec.describe User, type: :model do
     expect(user).to respond_to(:email)
   end
 
+  it "has email as a string" do
+    user = User.new
+    expect(user.email).to be_a(String)
+  end
+
   it "has a role" do
     user = User.new
     expect(user). to respond_to(:role)
