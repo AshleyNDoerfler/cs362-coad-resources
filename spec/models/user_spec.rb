@@ -16,6 +16,11 @@ RSpec.describe User, type: :model do
     expect(user.email).to eq("")
   end
 
+  it "email is required" do
+    user = User.new
+    expect(user).to validate_presence_of(:email)
+  end
+
   it "has an email that is a string" do
     user = User.new
     expect(user.email).to be_a(String)
