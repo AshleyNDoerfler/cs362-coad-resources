@@ -36,9 +36,14 @@ RSpec.describe Organization, type: :model do
     expect(organization).to respond_to(:rejection_reason)
   end
 
-  it "has a liability_insurance" do
+  it "has a liability_insurance flag" do
     organization = Organization.new
     expect(organization).to respond_to(:liability_insurance)
+  end
+
+  it "liability_insurance defaults to false" do
+    organization = Organization.new
+    expect(organization.liability_insurance).to eq(false)
   end
 
   it "has a primary_name" do
