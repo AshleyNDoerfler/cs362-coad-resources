@@ -11,7 +11,12 @@ RSpec.describe User, type: :model do
     expect(user).to respond_to(:email)
   end
 
-  it "has email as a string" do
+  it "email defaults to an empty string" do
+    user = User.new
+    expect(user.email).to eq("")
+  end
+
+  it "has an email that is a string" do
     user = User.new
     expect(user.email).to be_a(String)
   end
@@ -21,7 +26,7 @@ RSpec.describe User, type: :model do
     expect(user). to respond_to(:role)
   end
 
-  it "has a role that defaults to 'organization'" do
+  it "role defaults to 'organization'" do
     user = User.new
     expect(user.role).to eq("organization")
   end
