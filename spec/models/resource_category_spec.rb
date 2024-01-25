@@ -36,4 +36,10 @@ RSpec.describe ResourceCategory, type: :model do
     expect(result).to eq(name)
   end
 
+  it "activate! sets active to true" do
+    resource_category = ResourceCategory.new(active: false)
+    resource_category.activate
+    expect(resource_category.active).to eq(true)
+  end
+
 end
