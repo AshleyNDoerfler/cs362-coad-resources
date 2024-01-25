@@ -31,8 +31,22 @@ RSpec.describe Ticket, type: :model do
     expect(ticket.closed).to eq(false)
   end
 
-  it { should belong_to(:region) }
-  it { should belong_to(:resource_category) }
-  it { should belong_to(:organization).options[:optional] }
+  describe "associations" do
+    it { should belong_to(:region) }
+    it { should belong_to(:resource_category) }
+    it { should belong_to(:organization).options[:optional] }
+  end
+
+  describe "validations" do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:phone) }
+    it { should validate_presence_of(:region_id) }
+    it { should validate_presence_of(:resource_category_id) }
+
+    it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
+    it { should validate_length_of(:description).is_at_most(1020).on(:create) }
+
+    # it { should validate(:phone).phony_plausible(true) } # TODO: Fix This
+  end
 
 end

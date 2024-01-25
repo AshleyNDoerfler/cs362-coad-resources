@@ -18,7 +18,9 @@ RSpec.describe ResourceCategory, type: :model do
     expect(ResourceCategory.new.active).to eq(true)
   end
 
-  it { should have_and_belong_to_many(:organizations) }
-  it { should have_many(:tickets) }
+  describe "associations" do
+    it { should have_and_belong_to_many(:organizations) }
+    it { should have_many(:tickets) }
+  end
 
 end
