@@ -29,4 +29,11 @@ RSpec.describe ResourceCategory, type: :model do
     it { should validate_uniqueness_of(:name).case_insensitive }
   end
 
+  it "to_s returns the name" do
+    name = 'Peepee Poopoo'
+    resource_category = ResourceCategory.new(name: name)
+    result = resource_category.to_s
+    expect(result).to eq(name)
+  end
+
 end
