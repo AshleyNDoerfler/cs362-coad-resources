@@ -36,4 +36,6 @@ RSpec.describe User, type: :model do
     expect(user.role).to eq("organization")
   end
 
+  it { should belong_to(:organization).options[:optional] }
+
 end
