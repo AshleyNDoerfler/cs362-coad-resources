@@ -36,10 +36,16 @@ RSpec.describe ResourceCategory, type: :model do
     expect(result).to eq(name)
   end
 
-  it "activate! sets active to true" do
+  it "activate sets active to true" do
     resource_category = ResourceCategory.new(active: false)
     resource_category.activate
     expect(resource_category.active).to eq(true)
+  end
+
+  it "deactivate sets active to false" do
+    resource_category = ResourceCategory.new(active: true)
+    resource_category.deactivate
+    expect(resource_category.active).to eq(false)
   end
 
 end
