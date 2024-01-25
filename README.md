@@ -116,7 +116,7 @@ PostgreSQL
 Email Server (Gmail)
 Recaptcha
 
-## Data model
+## Rough ER Diagram
 ![erd](public/documentation/erd.jpg?raw=true)
 
 ![Rough_ER_Diagram](https://github.com/AshleyNDoerfler/cs362-coad-resources/assets/73670703/d13a505c-054f-468b-9e85-e2bbdc74fc23)
