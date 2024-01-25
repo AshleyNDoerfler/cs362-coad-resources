@@ -31,4 +31,8 @@ RSpec.describe Ticket, type: :model do
     expect(ticket.closed).to eq(false)
   end
 
+  it { should belong_to(:region) }
+  it { should belong_to(:resource_category) }
+  it { should belong_to(:organization).options[:optional] }
+
 end
