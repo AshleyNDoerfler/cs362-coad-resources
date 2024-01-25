@@ -71,4 +71,10 @@ RSpec.describe Organization, type: :model do
     expect(organization).to respond_to(:transportation)
   end
 
+  it { should have_many(:users) }
+
+  it { should have_many(:tickets) }
+
+  it { should have_and_belong_to_many(:resource_categories) }
+
 end
