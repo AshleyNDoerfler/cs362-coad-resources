@@ -43,7 +43,8 @@ RSpec.describe User, type: :model do
   describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_least(1).is_at_most(255).on(:create) }
-    # it { should validate(:email) }#.format(:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/) } # TODO: Fix This
+    it { should allow_value('fake@email.com').for(:email).on(:create) }
+    it { should_not allow_value('fakeemail.com').for(:email).on(:create) }
     it { should validate_uniqueness_of(:email).case_insensitive }
     it { should validate_presence_of(:password).on(:create) }
     it { should validate_length_of(:password).is_at_least(7).is_at_most(255).on(:create) }
