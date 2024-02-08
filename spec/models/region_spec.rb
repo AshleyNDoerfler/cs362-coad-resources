@@ -32,4 +32,16 @@ RSpec.describe Region, type: :model do
     expect(result).to eq(name)
   end
 
+  it "unspecified returns the unspecified region" do
+    region = Region.unspecified
+    expect(region.name).to eq('Unspecified')
+  end
+
+  it "unspecified returns the same region if it already exists" do
+    region = Region.new(name: 'Unspecified')
+    region.save
+    result = Region.unspecified
+    expect(result).to eq(region)
+  end
+
 end
