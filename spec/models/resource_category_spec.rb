@@ -62,4 +62,18 @@ RSpec.describe ResourceCategory, type: :model do
     end
   end
 
+  describe "static functions" do
+    it "unspecified returns the unspecified resource category" do
+      resource_category = ResourceCategory.unspecified
+      expect(resource_category.name).to eq('Unspecified')
+    end
+
+    it "unspecified returns the same resource category if it already exists" do
+      resource_category = ResourceCategory.new(name: 'Unspecified')
+      resource_category.save
+      result = ResourceCategory.unspecified
+      expect(result).to eq(resource_category)
+    end
+  end
+
 end
