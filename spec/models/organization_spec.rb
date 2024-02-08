@@ -107,4 +107,10 @@ RSpec.describe Organization, type: :model do
     expect(organization.status).to eq('approved')
   end
 
+  it "reject sets status to 'rejected'" do
+    organization = Organization.new(status: :submitted)
+    organization.reject
+    expect(organization.status).to eq('rejected')
+  end
+
 end
