@@ -113,4 +113,10 @@ RSpec.describe Organization, type: :model do
     expect(organization.status).to eq('rejected')
   end
 
+  it "set_default_status sets status to 'submitted' if new record" do
+    organization = Organization.new
+    organization.set_default_status
+    expect(organization.status).to eq('submitted')
+  end
+
 end
