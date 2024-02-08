@@ -94,29 +94,31 @@ RSpec.describe Organization, type: :model do
     it { should validate_length_of(:description).is_at_most(1020).on(:create) }
   end
 
-  it "to_s returns the name" do
-    name = 'Peepee Poopoo'
-    organization = Organization.new(name: name)
-    result = organization.to_s
-    expect(result).to eq(name)
-  end
+  describe "member functions" do
+    it "to_s returns the name" do
+      name = 'Peepee Poopoo'
+      organization = Organization.new(name: name)
+      result = organization.to_s
+      expect(result).to eq(name)
+    end
 
-  it "approve sets status to 'approved'" do
-    organization = Organization.new(status: :submitted)
-    organization.approve
-    expect(organization.status).to eq('approved')
-  end
+    it "approve sets status to 'approved'" do
+      organization = Organization.new(status: :submitted)
+      organization.approve
+      expect(organization.status).to eq('approved')
+    end
 
-  it "reject sets status to 'rejected'" do
-    organization = Organization.new(status: :submitted)
-    organization.reject
-    expect(organization.status).to eq('rejected')
-  end
+    it "reject sets status to 'rejected'" do
+      organization = Organization.new(status: :submitted)
+      organization.reject
+      expect(organization.status).to eq('rejected')
+    end
 
-  it "set_default_status sets status to 'submitted' if new record" do
-    organization = Organization.new
-    organization.set_default_status
-    expect(organization.status).to eq('submitted')
+    it "set_default_status sets status to 'submitted' if new record" do
+      organization = Organization.new
+      organization.set_default_status
+      expect(organization.status).to eq('submitted')
+    end
   end
-
+  
 end

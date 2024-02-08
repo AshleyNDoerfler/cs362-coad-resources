@@ -25,23 +25,25 @@ RSpec.describe Region, type: :model do
     it { should validate_uniqueness_of(:name).case_insensitive }
   end
 
-  it "to_s returns the name" do
-    name = 'Mt. Hood'
-    region = Region.new(name: name)
-    result = region.to_s
-    expect(result).to eq(name)
-  end
+  describe "member functions" do
+    it "to_s returns the name" do
+      name = 'Mt. Hood'
+      region = Region.new(name: name)
+      result = region.to_s
+      expect(result).to eq(name)
+    end
 
-  it "unspecified returns the unspecified region" do
-    region = Region.unspecified
-    expect(region.name).to eq('Unspecified')
-  end
+    it "unspecified returns the unspecified region" do
+      region = Region.unspecified
+      expect(region.name).to eq('Unspecified')
+    end
 
-  it "unspecified returns the same region if it already exists" do
-    region = Region.new(name: 'Unspecified')
-    region.save
-    result = Region.unspecified
-    expect(result).to eq(region)
+    it "unspecified returns the same region if it already exists" do
+      region = Region.new(name: 'Unspecified')
+      region.save
+      result = Region.unspecified
+      expect(result).to eq(region)
+    end
   end
 
 end

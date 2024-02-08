@@ -49,31 +49,33 @@ RSpec.describe Ticket, type: :model do
     # it { should validate(:phone).phony_plausible(true) } # TODO: Fix This
   end
 
-  it "to_s returns the id" do
-    id = 42069
-    ticket = Ticket.new(id: id)
-    result = ticket.to_s
-    expect(result).to eq("Ticket #{id}")
-  end
+  describe "member functions" do
+    it "to_s returns the id" do
+      id = 42069
+      ticket = Ticket.new(id: id)
+      result = ticket.to_s
+      expect(result).to eq("Ticket #{id}")
+    end
 
-  it "open sets open to true" do
-    ticket = Ticket.new(closed: false)
-    expect(ticket.open?).to eq(true)
-  end
+    it "open sets open to true" do
+      ticket = Ticket.new(closed: false)
+      expect(ticket.open?).to eq(true)
+    end
 
-  it "open sets open to false" do
-    ticket = Ticket.new(closed: true)
-    expect(ticket.open?).to eq(false)
-  end
+    it "open sets open to false" do
+      ticket = Ticket.new(closed: true)
+      expect(ticket.open?).to eq(false)
+    end
 
-  it "captured? returns true if organization is present" do
-    ticket = Ticket.new(organization: Organization.new)
-    expect(ticket.captured?).to eq(true)
-  end
+    it "captured? returns true if organization is present" do
+      ticket = Ticket.new(organization: Organization.new)
+      expect(ticket.captured?).to eq(true)
+    end
 
-  it "captured? returns false if organization is not present" do
-    ticket = Ticket.new
-    expect(ticket.captured?).to eq(false)
+    it "captured? returns false if organization is not present" do
+      ticket = Ticket.new
+      expect(ticket.captured?).to eq(false)
+    end
   end
 
 end
