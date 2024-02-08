@@ -61,5 +61,9 @@ RSpec.describe Ticket, type: :model do
     expect(ticket.open?).to eq(true)
   end
 
+  it "open sets open to false" do
+    ticket = Ticket.new(closed: true)
+    expect(ticket.open?).to eq(false)
+  end
 
 end
