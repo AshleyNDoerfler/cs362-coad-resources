@@ -94,4 +94,11 @@ RSpec.describe Organization, type: :model do
     it { should validate_length_of(:description).is_at_most(1020).on(:create) }
   end
 
+  it "to_s returns the name" do
+    name = 'Peepee Poopoo'
+    organization = Organization.new(name: name)
+    result = organization.to_s
+    expect(result).to eq(name)
+  end
+
 end
