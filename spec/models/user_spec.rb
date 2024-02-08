@@ -50,4 +50,10 @@ RSpec.describe User, type: :model do
     it { should validate_length_of(:password).is_at_least(7).is_at_most(255).on(:create) }
   end
 
+  it "to_s returns the email" do
+    email = 'ashleyndoerfler@gmail.com'
+    user = User.new(email: email)
+    expect(user.to_s).to eq(email)
+  end
+  
 end
