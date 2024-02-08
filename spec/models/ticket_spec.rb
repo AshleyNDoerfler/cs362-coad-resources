@@ -66,4 +66,9 @@ RSpec.describe Ticket, type: :model do
     expect(ticket.open?).to eq(false)
   end
 
+  it "captured? returns true if organization is present" do
+    ticket = Ticket.new(organization: Organization.new)
+    expect(ticket.captured?).to eq(true)
+  end
+
 end
