@@ -101,4 +101,10 @@ RSpec.describe Organization, type: :model do
     expect(result).to eq(name)
   end
 
+  it "approve sets status to 'approved'" do
+    organization = Organization.new(status: :submitted)
+    organization.approve
+    expect(organization.status).to eq('approved')
+  end
+
 end
