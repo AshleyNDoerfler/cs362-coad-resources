@@ -49,4 +49,11 @@ RSpec.describe Ticket, type: :model do
     # it { should validate(:phone).phony_plausible(true) } # TODO: Fix This
   end
 
+  it "to_s returns the id" do
+    id = 42069
+    ticket = Ticket.new(id: id)
+    result = ticket.to_s
+    expect(result).to eq("Ticket #{id}")
+  end
+
 end
