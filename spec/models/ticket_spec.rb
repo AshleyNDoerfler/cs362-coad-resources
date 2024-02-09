@@ -48,6 +48,7 @@ RSpec.describe Ticket, type: :model do
     it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it { should validate_length_of(:description).is_at_most(1020).on(:create) }
 
+
     # it { should validate(:phone).phony_plausible(true) } # TODO: Fix This
   end
 
@@ -78,6 +79,30 @@ RSpec.describe Ticket, type: :model do
       ticket = Ticket.new
       expect(ticket.captured?).to eq(false)
     end
+  end
+
+  describe "scopes" do
+    let(:resource_category) { build_stubbed :resource_category }
+    let(:resource_category_closed) { build_stubbed :resource_category, name: "Closed" }
+
+    let(:region) { build_stubbed :region }
+    let(:region_2) { build_stubbed :region, name: "Closed" }
+    
+    let(:open_ticket) { create(:ticket, region: region, resource_category: resource_category, closed: false) }
+    let(:closed_ticket) { create(:ticket, region: region_2, resource_category: resource_category_closed, closed: true) }
+
+    it "open returns open tickets" do
+      expect(Ticket.open).to include(open_ticket)
+      expect(Ticket.open).to_not include(closed_ticket)
+    end
+
+    it "closed returns closed tickets" do
+      expect(Ticket.closed).to include(closed_ticket)
+      expect(Ticket.closed).to_not include(open_ticket)
+    end
+
+    
+
   end
 
 end
