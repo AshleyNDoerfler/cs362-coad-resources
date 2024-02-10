@@ -8,9 +8,5 @@ FactoryBot.define do
     organization { nil }
     region
     resource_category 
-    
-    # trait :closed do
-    #   closed { true }
-    # end
   end
 end

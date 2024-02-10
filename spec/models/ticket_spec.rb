@@ -82,14 +82,19 @@ RSpec.describe Ticket, type: :model do
   end
 
   describe "scopes" do
-    let(:resource_category) { build_stubbed :resource_category }
+    let(:organization) { build_stubbed :organization, name: "Babadook", email: "IHateThis@gmail.com" }
+
+    let(:resource_category) { build_stubbed :resource_category}
     let(:resource_category_closed) { build_stubbed :resource_category, name: "Closed" }
+    let(:resource_category_3) { build_stubbed :resource_category, organization: organization }
 
     let(:region) { build_stubbed :region }
     let(:region_2) { build_stubbed :region, name: "Closed" }
+    let(:region_3) { build_stubbed :region, name: "Pooper dooper" }
     
     let(:open_ticket) { create(:ticket, region: region, resource_category: resource_category, closed: false) }
     let(:closed_ticket) { create(:ticket, region: region_2, resource_category: resource_category_closed, closed: true) }
+    let(:organization_ticket) { create(:ticket, region: region_3, resource_category: resource_category_3, closed: false) }
 
     it "open returns open tickets" do
       expect(Ticket.open).to include(open_ticket)
@@ -101,8 +106,9 @@ RSpec.describe Ticket, type: :model do
       expect(Ticket.closed).to_not include(open_ticket)
     end
 
-    
-
+    # it "all_organization returns all tickets with an organization" do
+    #   expect(Ticket.all_organization).to include(organization_ticket)
+    # end
   end
 
 end
