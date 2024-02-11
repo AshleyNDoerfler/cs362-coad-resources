@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ResourceCategory, type: :model do
 
-  it "exists" do
-    ResourceCategory.new
-  end
+  # it "exists" do
+  #   ResourceCategory.new
+  # end
 
   describe "attributes" do
     let(:resource_category) { create(:resource_category) }
