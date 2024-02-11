@@ -2,73 +2,64 @@ require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
 
-  it "exists" do
-    Organization.new
-  end
+  # it "exists" do
+  #   Organization.new
+  # end
 
-  it "has a name" do
-    organization = Organization.new
-    expect(organization).to respond_to(:name)
-  end
+  let(:organization) { build(:organization) }
 
-  it "has a status" do
-    organization = Organization.new
-    expect(organization).to respond_to(:status)
-  end
+  describe "attributes" do
+    it "has a name" do
+      expect(organization).to respond_to(:name)
+    end
 
-  it "has a phone" do
-    organization = Organization.new
-    expect(organization).to respond_to(:phone)
-  end
+    it "has a status" do
+      expect(organization).to respond_to(:status)
+    end
 
-  it "has an email" do
-    organization = Organization.new
-    expect(organization).to respond_to(:email)
-  end
+    it "has a phone" do
+      expect(organization).to respond_to(:phone)
+    end
 
-  it "has a description" do
-    organization = Organization.new
-    expect(organization).to respond_to(:description)
-  end
+    it "has an email" do
+      expect(organization).to respond_to(:email)
+    end
 
-  it "has a rejection_reason" do
-    organization = Organization.new
-    expect(organization).to respond_to(:rejection_reason)
-  end
+    it "has a description" do
+      expect(organization).to respond_to(:description)
+    end
 
-  it "has a liability_insurance flag" do
-    organization = Organization.new
-    expect(organization).to respond_to(:liability_insurance)
-  end
+    it "has a rejection_reason" do
+      expect(organization).to respond_to(:rejection_reason)
+    end
 
-  it "liability_insurance defaults to false" do
-    organization = Organization.new
-    expect(organization.liability_insurance).to eq(false)
-  end
+    it "has a liability_insurance flag" do
+      expect(organization).to respond_to(:liability_insurance)
+    end
 
-  it "has a primary_name" do
-    organization = Organization.new
-    expect(organization).to respond_to(:primary_name)
-  end
+    it "liability_insurance defaults to false" do
+      expect(organization.liability_insurance).to eq(false)
+    end
 
-  it "has a secondary_name" do
-    organization = Organization.new
-    expect(organization).to respond_to(:secondary_name)
-  end
+    it "has a primary_name" do
+      expect(organization).to respond_to(:primary_name)
+    end
 
-  it "has a secondary_phone" do
-    organization = Organization.new
-    expect(organization).to respond_to(:secondary_phone)
-  end
+    it "has a secondary_name" do
+      expect(organization).to respond_to(:secondary_name)
+    end
 
-  it "has a title" do
-    organization = Organization.new
-    expect(organization).to respond_to(:title)
-  end
+    it "has a secondary_phone" do
+      expect(organization).to respond_to(:secondary_phone)
+    end
 
-  it "has a transportation" do
-    organization = Organization.new
-    expect(organization).to respond_to(:transportation)
+    it "has a title" do
+      expect(organization).to respond_to(:title)
+    end
+
+    it "has a transportation" do
+      expect(organization).to respond_to(:transportation)
+    end
   end
 
   describe "associations" do
@@ -96,26 +87,22 @@ RSpec.describe Organization, type: :model do
 
   describe "member functions" do
     it "to_s returns the name" do
-      name = 'Peepee Poopoo'
-      organization = Organization.new(name: name)
+      name = 'Papa Johns'
       result = organization.to_s
       expect(result).to eq(name)
     end
 
     it "approve sets status to 'approved'" do
-      organization = Organization.new(status: :submitted)
       organization.approve
       expect(organization.status).to eq('approved')
     end
 
     it "reject sets status to 'rejected'" do
-      organization = Organization.new(status: :submitted)
       organization.reject
       expect(organization.status).to eq('rejected')
     end
 
     it "set_default_status sets status to 'submitted' if new record" do
-      organization = Organization.new
       organization.set_default_status
       expect(organization.status).to eq('submitted')
     end
