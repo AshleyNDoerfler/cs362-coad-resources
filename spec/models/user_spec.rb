@@ -2,38 +2,36 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  it "exists" do
-    User.new
-  end
+  # it "exists" do
+  #   User.new
+  # end
 
-  it "has an email" do
-    user = User.new
-    expect(user).to respond_to(:email)
-  end
+  let(:user) { build(:user) }
 
-  it "email defaults to an empty string" do
-    user = User.new
-    expect(user.email).to eq("")
-  end
+  describe "attributes" do
+    it "has an email" do
+      expect(user).to respond_to(:email)
+    end
 
-  it "email is required" do
-    user = User.new
-    expect(user).to validate_presence_of(:email)
-  end
+    it "email defaults to an empty string" do
+      expect(user.email).to eq("")
+    end
 
-  it "has an email that is a string" do
-    user = User.new
-    expect(user.email).to be_a(String)
-  end
+    it "email is required" do
+      expect(user).to validate_presence_of(:email)
+    end
 
-  it "has a role" do
-    user = User.new
-    expect(user). to respond_to(:role)
-  end
+    it "has an email that is a string" do
+      expect(user.email).to be_a(String)
+    end
 
-  it "role defaults to 'organization'" do
-    user = User.new
-    expect(user.role).to eq("organization")
+    it "has a role" do
+      expect(user). to respond_to(:role)
+    end
+
+    it "role defaults to 'organization'" do
+      expect(user.role).to eq("organization")
+    end
   end
 
   describe "associations" do
@@ -52,13 +50,10 @@ RSpec.describe User, type: :model do
 
   describe "member functions" do
     it "to_s returns the email" do
-      email = 'ashleyndoerfler@gmail.com'
-      user = User.new(email: email)
-      expect(user.to_s).to eq(email)
+      expect(user.to_s).to eq(user.email)
     end
 
     it "set_default_role sets role to 'organization'" do
-      user = User.new
       expect(user.set_default_role).to eq("organization")
     end
   end

@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Region, type: :model do
-  let(:region) { build(:region, name: 'Mt. Hood') }
 
   # it "exists" do
   #   Region.new
   # end
+
+  let(:region) { build(:region, name: 'Mt. Hood') }
 
   describe "attributes" do
     it "has a name" do

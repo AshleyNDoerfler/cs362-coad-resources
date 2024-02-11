@@ -5,6 +5,7 @@ RSpec.describe ResourceCategory, type: :model do
   # it "exists" do
   #   ResourceCategory.new
   # end
+  
   let(:resource_category) { create(:resource_category) }
 
   describe "attributes" do
