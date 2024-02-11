@@ -76,4 +76,15 @@ RSpec.describe ResourceCategory, type: :model do
     end
   end
 
+  describe "scopes" do
+    let(:active_resource_category) { ResourceCategory.create(name: 'Active', active: true) }
+    let(:inactive_resource_category) { ResourceCategory.create(name: 'Inactive', active: false) }
+
+    it "active returns active resource categories" do
+      result = ResourceCategory.active
+      expect(result).to include(active_resource_category)
+      expect(result).to_not include(inactive_resource_category)
+    end
+  end
+
 end
