@@ -5,10 +5,9 @@ RSpec.describe ResourceCategory, type: :model do
   # it "exists" do
   #   ResourceCategory.new
   # end
+  let(:resource_category) { create(:resource_category) }
 
   describe "attributes" do
-    let(:resource_category) { create(:resource_category) }
-
     it "has a name" do
       expect(resource_category).to respond_to(:name)
     end
@@ -34,8 +33,6 @@ RSpec.describe ResourceCategory, type: :model do
   end
   
   describe "member functions" do
-    let(:resource_category) { create(:resource_category, active: false) }
-
     it "to_s returns the name" do
       name = "Billy Ray Cyrus"
       result = resource_category.to_s
@@ -53,6 +50,7 @@ RSpec.describe ResourceCategory, type: :model do
     end
 
     it "inactive? returns true if active is false" do
+      resource_category.deactivate
       expect(resource_category.inactive?).to eq(true)
     end
 
@@ -63,7 +61,6 @@ RSpec.describe ResourceCategory, type: :model do
   end
 
   describe "static functions" do
-    let(:resource_category) { create(:resource_category) }
     let(:resource_category_unspecified) { create(:resource_category, name: 'Unspecified', active: false) }
 
     it "unspecified returns the unspecified resource category" do
