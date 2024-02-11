@@ -3,21 +3,25 @@ require 'rails_helper'
 RSpec.describe Region, type: :model do
   let(:region) { build(:region, name: 'Mt. Hood') }
 
-  it "exists" do
-    Region.new
+  # it "exists" do
+  #   Region.new
+  # end
+
+  describe "attributes" do
+    it "has a name" do
+      expect(region).to respond_to(:name)
+    end
+
+    it "has a string representation that is its name" do
+      name = 'Mt. Hood'
+      result = region.to_s
+      expect(result).to eq(name)
+    end
   end
 
-  it "has a name" do
-    expect(region).to respond_to(:name)
+  describe "associations" do
+    it { should have_many(:tickets) }
   end
-
-  it "has a string representation that is its name" do
-    name = 'Mt. Hood'
-    result = region.to_s
-    expect(result).to eq(name)
-  end
-
-  it { should have_many(:tickets) }
 
   describe "validations" do
     it { should validate_presence_of(:name) }
