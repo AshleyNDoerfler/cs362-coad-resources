@@ -2,33 +2,26 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
 
-  it "exists" do
-    Ticket.new
-  end
-
   describe "attributes" do
+    let(:ticket) { build(:ticket) }
+
     it "has a name" do
-      ticket = Ticket.new
       expect(ticket).to respond_to(:name)
     end
 
     it "has a description" do
-      ticket = Ticket.new
       expect(ticket).to respond_to(:description)
     end
 
     it "has a phone" do
-      ticket = Ticket.new
       expect(ticket).to respond_to(:phone)
     end
 
     it "has a closed flag" do
-      ticket = Ticket.new
       expect(ticket).to respond_to(:closed)
     end
 
     it "closed defaults to false" do
-      ticket = Ticket.new
       expect(ticket.closed).to eq(false)
     end
   end
@@ -53,30 +46,31 @@ RSpec.describe Ticket, type: :model do
   end
 
   describe "member functions" do
+    # Factory bots
+    let(:organization) { create(:organization, name: "Babadook", email: "IHateThis@gmail.com") }
+    let(:captured_ticket) { create(:ticket, organization: organization, id: 345) }
+    let(:open_ticket) { create(:ticket, closed: false) }
+    let(:closed_ticket) { create(:ticket, closed: true) }
+    let(:ticket) { create(:ticket) }
+
     it "to_s returns the id" do
-      id = 42069
-      ticket = Ticket.new(id: id)
       result = ticket.to_s
-      expect(result).to eq("Ticket #{id}")
+      expect(result).to eq("Ticket #{ticket.id}")
     end
 
-    it "open sets open to true" do
-      ticket = Ticket.new(closed: false)
-      expect(ticket.open?).to eq(true)
+    it "open? returns true if open" do
+      expect(open_ticket.open?).to eq(true)
     end
 
-    it "open sets open to false" do
-      ticket = Ticket.new(closed: true)
-      expect(ticket.open?).to eq(false)
+    it "open returns false if closed" do
+      expect(closed_ticket.open?).to eq(false)
     end
 
     it "captured? returns true if organization is present" do
-      ticket = Ticket.new(organization: Organization.new)
-      expect(ticket.captured?).to eq(true)
+      expect(captured_ticket.captured?).to eq(true)
     end
 
     it "captured? returns false if organization is not present" do
-      ticket = Ticket.new
       expect(ticket.captured?).to eq(false)
     end
   end
