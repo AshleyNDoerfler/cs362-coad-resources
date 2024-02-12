@@ -57,5 +57,9 @@ RSpec.describe User, type: :model do
       expect(user.set_default_role).to eq("organization")
     end
   end
+
+  describe "controller functions" do
+    #TODO: Add controller tests
+  end
   
 end

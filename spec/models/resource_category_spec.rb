@@ -5,7 +5,7 @@ RSpec.describe ResourceCategory, type: :model do
   # it "exists" do
   #   ResourceCategory.new
   # end
-  
+
   let(:resource_category) { create(:resource_category) }
 
   describe "attributes" do
@@ -91,6 +91,10 @@ RSpec.describe ResourceCategory, type: :model do
       expect(result).to include(inactive_resource_category)
       expect(result).to_not include(active_resource_category)
     end
+  end
+
+  describe "controller functions" do
+    #TODO: Add controller tests
   end
 
 end

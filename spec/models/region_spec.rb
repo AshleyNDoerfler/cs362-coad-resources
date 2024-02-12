@@ -51,4 +51,8 @@ RSpec.describe Region, type: :model do
     end
   end
 
+  describe "controller functions" do
+    #TODO: Add controller tests
+  end
+
 end
