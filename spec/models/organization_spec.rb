@@ -107,9 +107,5 @@ RSpec.describe Organization, type: :model do
       expect(organization.status).to eq('submitted')
     end
   end
-
-  describe "controller functions" do
-    #TODO: Add controller tests
-  end
   
 end
