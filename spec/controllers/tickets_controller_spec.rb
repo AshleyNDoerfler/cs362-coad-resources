@@ -142,12 +142,30 @@ RSpec.describe TicketsController, type: :controller do
     end
   end
 
+  # describe 'POST #release' do
+  #   context 'success' do
+  #     before do
+  #       sign_in(organization_approved)
+  #       allow(TicketService).to receive(:capture_ticket).and_return :ok
+  #     end
 
+  #     specify { expect(post(:release, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:organization' }
+
+  #     it {
+  #       expect(TicketService).to receive(:release_ticket).and_return(:error)
+  #       post(:release, params: {id: ticket.id})
+  #       expect(response).to be_successful
+  #     }
+  #   end
+  # end
+
+
+# new 
 # create
 # show
 # capture
-# release
-# close
-# destroy
+# release TODO
+# close TODO
+# destroy TODO
 
 end
