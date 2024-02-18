@@ -4,21 +4,21 @@ RSpec.describe TicketsController, type: :controller do
   let(:ticket) { create(:ticket) }
   let(:admin) { create(:user, :admin) }
   let(:admin_approved) { create(:user, :organization_approved, :admin, email: "email@email.com") }
-  let(:admin_unapproved) { create(:user, :organization_unapproved, :admin, email: "email_2@email.com") }
-  let(:organization_approved) { create(:user, :organization_approved) }
+  let(:admin_unapproved) { create(:user, :organization_unapproved, :admin, email: "email@email.com") }
+  let(:organization_approved) { create(:user, :organization_approved, email: "email@email.com") }
   let(:organization_unapproved) { create(:user, :organization_unapproved) }
 
   describe 'GET #new' do
     it { expect(get(:new)).to be_successful }
   end
 
-  # describe 'GET #show' do
-  #   before do
-  #     sign_in organization_approved
-  #   end
+  describe 'GET #show' do
+    before do
+      sign_in organization_approved
+    end
 
-  #   it { expect(get(:show, params: { id: ticket.id })).to be_successful }
-  # end
+    it { expect(get(:show, params: { id: ticket.id })).to be_successful }
+  end
 
 
   # describe 'POST #create' do
