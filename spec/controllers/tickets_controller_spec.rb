@@ -6,7 +6,7 @@ RSpec.describe TicketsController, type: :controller do
   let(:admin_approved) { create(:user, :organization_approved, :admin, email: "email@email.com") }
   let(:admin_unapproved) { create(:user, :organization_unapproved, :admin, email: "email@email.com") }
   let(:organization_approved) { create(:user, :organization_approved, email: "email@email.com") }
-  let(:organization_unapproved) { create(:user, :organization_unapproved) }
+  let(:organization_unapproved) { create(:user, :organization_unapproved, email: "email@email.com") }
 
   describe 'GET #new' do
     it { expect(get(:new)).to be_successful }
@@ -58,89 +58,89 @@ RSpec.describe TicketsController, type: :controller do
   end
 
 
-  # describe 'POST #capture' do
-  #   context 'success' do
-  #     before do
-  #       sign_in(organization_approved)
-  #       #allow(TicketService).to receive(:capture_ticket).and_return :ok
-  #     end
+  describe 'POST #capture' do
+    context 'success' do
+      before do
+        sign_in(organization_approved)
+        allow(TicketService).to receive(:capture_ticket).and_return :ok
+      end
 
-  #     #specify { expect(post(:capture, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:open' }
+      specify { expect(post(:capture, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:open' }
 
-  #     it {
-  #       expect(TicketService).to receive(:capture_ticket).and_return(:error)
-  #       post(:capture, params: {id: ticket.id})
-  #       expect(response).to be_successful
-  #     }
-  #   end
+      it {
+        expect(TicketService).to receive(:capture_ticket).and_return(:error)
+        post(:capture, params: {id: ticket.id})
+        expect(response).to be_successful
+      }
+    end
 
-  #   context 'failure' do
-  #     specify { expect(post(:capture, params: { id: ticket.id })).to_not be_successful }
+    context 'failure' do
+      specify { expect(post(:capture, params: { id: ticket.id })).to_not be_successful }
 
-  #     it 'returns unsuccessful if the user is an unapproved organization' do
-  #       sign_in(organization_unapproved)
-  #       expect(post(:capture, params: { id: ticket.id })).to_not be_successful
-  #     end
-  #   end
+      it 'returns unsuccessful if the user is an unapproved organization' do
+        sign_in(organization_unapproved)
+        expect(post(:capture, params: { id: ticket.id })).to_not be_successful
+      end
+    end
 
-    # context 'logged-out' do
-    #   describe 'POST #capture' do
-    #     it { 
-    #       post(:capture, params: { id: ticket.id })
-    #       #expect(response).to_not be_successful
-    #       expect(response).to redirect_to(dashboard_path)
-    #     }
-    #   end
+    context 'logged-out' do
+      describe 'POST #capture' do
+        it { 
+          post(:capture, params: { id: ticket.id })
+          expect(response).to_not be_successful
+          expect(response).to redirect_to(dashboard_path)
+        }
+      end
 
-    #   describe 'POST #release' do
-    #     it {
-    #       ticket = create(:ticket)
-    #       post(:release, params: { id: ticket.id })
-    #       expect(response).to redirect_to dashboard_path
-    #     }
-    #   end
-    # end
+      describe 'POST #release' do
+        it {
+          ticket = create(:ticket)
+          post(:release, params: { id: ticket.id })
+          expect(response).to redirect_to dashboard_path
+        }
+      end
+    end
 
-    # context 'logged-in organization' do
-    #   describe 'POST #release own ticket' do
-    #     it {
-    #       sign_in organization_approved
-    #       ticket = create(:ticket, organization_id: organization_approved.organization_id)
-    #       post(:release, params: { id: ticket.id })
-    #       expect(response).to redirect_to (dashboard_path << '#tickets:organization')
-    #     }
-    #   end
-    #   describe 'POST #release don\'t own ticket' do
-    #     it {
-    #       sign_in organization_approved
-    #       other_organization = create(:organization)
-    #       ticket = create(:ticket, organization_id: other_organization.id)
-    #       post(:release, params: { id: ticket.id })
-    #       expect(response).to be_successful
-    #     }
-    #   end
-    # end
+    context 'logged-in organization' do
+      describe 'POST #release own ticket' do
+        it {
+          sign_in organization_approved
+          ticket = create(:ticket, organization_id: organization_approved.organization_id)
+          post(:release, params: { id: ticket.id })
+          expect(response).to redirect_to (dashboard_path << '#tickets:organization')
+        }
+      end
+      describe 'POST #release don\'t own ticket' do
+        it {
+          sign_in organization_approved
+          other_organization = create(:organization, name: "Jojo", email: "email_69@email.com")
+          ticket = create(:ticket, organization_id: other_organization.id)
+          post(:release, params: { id: ticket.id })
+          expect(response).to be_successful
+        }
+      end
+    end
 
-    # context 'admin' do
-    #   describe 'POST #release own ticket unapproved' do
-    #     it {
-    #       sign_in admin_unapproved
-    #       ticket = create(:ticket)
-    #       post(:release, params: { id: ticket.id })
-    #       expect(response).to redirect_to dashboard_path
-    #     }
-    #   end
+    context 'admin' do
+      describe 'POST #release own ticket unapproved' do
+        it {
+          sign_in admin_unapproved
+          ticket = create(:ticket)
+          post(:release, params: { id: ticket.id })
+          expect(response).to redirect_to dashboard_path
+        }
+      end
 
-    #   describe 'POST #release own ticket unapproved' do
-    #     it {
-    #       sign_in admin_approved
-    #       ticket = create(:ticket, organization_id: admin_approved.organization_id)
-    #       post(:release, params: { id: ticket.id })
-    #       expect(response).to redirect_to (dashboard_path << '#tickets:captured')
-    #     }
-    #   end
-    # end
-  # end
+      describe 'POST #release own ticket unapproved' do
+        it {
+          sign_in admin_approved
+          ticket = create(:ticket, organization_id: admin_approved.organization_id)
+          post(:release, params: { id: ticket.id })
+          expect(response).to redirect_to (dashboard_path << '#tickets:captured')
+        }
+      end
+    end
+  end
 
 
 # create
