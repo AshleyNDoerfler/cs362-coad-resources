@@ -1,11 +1,23 @@
-FactoryBot.define do 
+FactoryBot.define do
   factory :user do
-    email 
-    password { "password" }
+    email { "" }
+    role { 'organization' }
+    password { "fake_password" }
 
-    # before(:create) { |user| user.skip_confirmation!}
+    before(:create) { |user| user.skip_confirmation! }
 
-    # TODO: trais org_approved, org_unapproved, admin 
-    # note: format for creation example: "let(:admin_user) { create(:user, :admin) }""
+    trait :organization_approved do
+      role { :organization }
+      organization_id { create(:organization, :approved).id }
+    end
+
+    trait :organization_unapproved do
+      role { :organization }
+      organization_id { create(:organization).id }
+    end
+
+    trait :admin do
+      role { :admin }
+    end
   end
 end
