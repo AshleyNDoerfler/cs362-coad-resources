@@ -60,6 +60,25 @@ let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
       it { expect(post(:create, params: params)).to be_successful }
     end
 
+    context "failure" do
+      let(:params) do
+        {
+          organization: {
+            name: nil,
+            phone: nil,
+            description: nil,
+            liability_insurance: nil,
+            primary_name: nil,
+            secondary_name: nil,
+            secondary_phone: nil,
+            title: nil,
+          }
+        }
+      end
+      before(:each) { sign_in(user) }
+      it { expect(post(:create, params: params)).to be_successful }
+    end
+
   end
 
 
