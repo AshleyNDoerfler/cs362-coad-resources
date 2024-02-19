@@ -29,4 +29,10 @@ RSpec.describe DashboardHelper, type: :helper do
     it {expect(helper.dashboard_for(user)).to eq("organization_approved_dashboard")}
   end
 
+  describe "dashboard for unapproved organization" do
+    let(:organization) {double :organization, submitted?: false, approved?: false}
+    let(:user) {double :user, admin?: false, organization: organization}
+    it {expect(helper.dashboard_for(user)).to eq("create_application_dashboard")}
+  end
+
 end
