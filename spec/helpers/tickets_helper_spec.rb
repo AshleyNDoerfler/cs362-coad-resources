@@ -12,4 +12,8 @@ require 'rails_helper'
 # end
 RSpec.describe TicketsHelper, type: :helper do
 
+  describe "format_phone_number" do
+    it { expect(helper.format_phone_number("1234567890")).to eq("+1234567890")}
+  end 
+
 end
