@@ -12,4 +12,11 @@ require 'rails_helper'
 # end
 RSpec.describe DashboardHelper, type: :helper do
 
+  describe "dashboard for admin" do
+    let(:user) {double :user, admin?: true}
+    it {expect(helper.dashboard_for(user)).to eq("admin_dashboard")}
+  end
+
+  
+
 end
