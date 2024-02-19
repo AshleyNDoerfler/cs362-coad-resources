@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe OrganizationsController, type: :controller do
 
 # NOTE: may need "Devise gem"
+let(:user) { create(:user, email: "email@gmail.com") }
+let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
 
-describe "GET #index while logged in" do
-    let(:user) { create(:user, email: "email@gmail.com") }
+  describe "GET #index while logged in" do
 
     before(:each) { sign_in(user) }
 
@@ -13,7 +14,6 @@ describe "GET #index while logged in" do
   end
 
   describe "GET #index while logged in as admin" do
-    let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
 
     before(:each) { sign_in(admin_user) }
 
@@ -24,6 +24,13 @@ describe "GET #index while logged in" do
     it { expect(get(:index)).to redirect_to(new_user_session_path) }
   end
 
+  describe "GET #new while logged in" do
+
+    before(:each) { sign_in(user) }
+
+    it { expect(get(:new)).to be_successful }
+    
+  end
 # TODO
 # new
 # create
