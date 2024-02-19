@@ -12,7 +12,10 @@ RSpec.describe ResourceCategoriesController, type: :controller do
 
     # TODO: Fix this test
     # context 'while logged in' do
-    #   before(:each) { sign_in(user) }
+    #   before(:each) do
+    #     user.confirm
+    #     sign_in(user)
+    #   end
     #   it { expect(get(:index)).to be_successful}
     # end
   end
