@@ -17,6 +17,10 @@ RSpec.describe DashboardHelper, type: :helper do
     it {expect(helper.dashboard_for(user)).to eq("admin_dashboard")}
   end
 
-  
+  describe "dashboard for user organization submitted" do
+    let(:organization) {double :organization, submitted?: true}
+    let(:user) {double :user, admin?: false, organization: organization}
+    it {expect(helper.dashboard_for(user)).to eq("organization_submitted_dashboard")}
+  end
 
 end
