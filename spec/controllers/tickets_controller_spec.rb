@@ -166,6 +166,22 @@ RSpec.describe TicketsController, type: :controller do
         expect(response).to redirect_to dashboard_path << '#tickets:open'
       end
     end
+    
+    context 'as logged-in unapproved admin' do
+      it "redirects to dashboard" do
+        sign_in admin_unapproved
+        patch :close, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path << '#tickets:open'
+      end
+    end
+
+    context 'as logged-in organization' do
+      it "to be successful" do
+        sign_in organization_approved
+        patch :close, params: { id: ticket.id }
+        expect(response).to be_successful
+      end
+    end
   end
 
   # describe 'POST #release' do
