@@ -84,13 +84,12 @@ RSpec.describe TicketsController, type: :controller do
     end
 
     context 'logged-out' do
-      describe 'POST #capture' do
-        it { 
-          post(:capture, params: { id: ticket.id })
-          expect(response).to_not be_successful
-          expect(response).to redirect_to(dashboard_path)
-        }
-      end
+      it { 
+        post(:capture, params: { id: ticket.id })
+        expect(response).to_not be_successful
+        expect(response).to redirect_to(dashboard_path)
+      }
+      
 
       describe 'POST #release' do
         it {
@@ -110,6 +109,7 @@ RSpec.describe TicketsController, type: :controller do
           expect(response).to redirect_to (dashboard_path << '#tickets:organization')
         }
       end
+
       describe 'POST #release don\'t own ticket' do
         it {
           sign_in organization_approved
@@ -138,6 +138,15 @@ RSpec.describe TicketsController, type: :controller do
           post(:release, params: { id: ticket.id })
           expect(response).to redirect_to (dashboard_path << '#tickets:captured')
         }
+      end
+    end
+  end
+
+  describe 'PATCH #close' do
+    context 'as logged-out user' do
+      it "redirects to dashboard" do
+        patch :close, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path
       end
     end
   end
