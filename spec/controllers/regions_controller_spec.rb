@@ -10,28 +10,12 @@ RSpec.describe RegionsController, type: :controller do
       let(:region) { create(:region) }
 
       context 'success' do
-        let(:params) do
-          {
-            region: {
-              name: 'Fake Region',
-              description: 'Fake Description'
-            }
-          }
-        end
-
+        let(:params) { { region: attributes_for(:region) } }
         specify { expect(post(:create, params: params)).to redirect_to regions_path }
       end
 
       context 'failure' do
-        let(:params) do
-          {
-            region: {
-              name: nil,
-              description: nil
-            }
-          }
-        end
-
+        let(:params) { { region: attributes_for(:region, name: nil, description: nil) } }
         specify { expect(post(:create, params: params)).to be_successful }
       end
     end
@@ -40,7 +24,6 @@ RSpec.describe RegionsController, type: :controller do
   # index
   # show
   # new
-  # create
   # edit
   # update
   # destroy
