@@ -202,12 +202,8 @@ RSpec.describe TicketsController, type: :controller do
   # end
 
 
-# new 
-# create
-# show
-# capture
-# release TODO
-# close TODO
-# destroy TODO
+# release 
+# close 
+# destroy 
 
 end
