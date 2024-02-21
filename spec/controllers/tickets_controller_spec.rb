@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
   let(:ticket) { create(:ticket) }
+  let(:user) { create(:user, email: "email@gmail.com")}
   let(:admin) { create(:user, :admin) }
   let(:admin_approved) { create(:user, :organization_approved, :admin, email: "email@email.com") }
   let(:admin_unapproved) { create(:user, :organization_unapproved, :admin, email: "email@email.com") }
@@ -145,6 +146,14 @@ RSpec.describe TicketsController, type: :controller do
   describe 'PATCH #close' do
     context 'as logged-out user' do
       it "redirects to dashboard" do
+        patch :close, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path
+      end
+    end
+
+    context 'as logged-in user' do
+      it "redirects to dashboard" do
+        sign_in user
         patch :close, params: { id: ticket.id }
         expect(response).to redirect_to dashboard_path
       end
