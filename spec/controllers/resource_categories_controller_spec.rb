@@ -20,10 +20,23 @@ RSpec.describe ResourceCategoriesController, type: :controller do
     # end
   end
 
+  describe 'GET #new' do
+    context 'while logged out' do
+      it { expect(get(:new)).to redirect_to(new_user_session_path) }
+    end
+
+    context 'while logged in' do
+      before(:each) do
+        user.confirm
+        sign_in(user)
+      end
+      it { expect(get(:new)).to redirect_to(dashboard_path) }
+    end
+  end
+
   # TODO
   # index
   # show
-  # new
   # create
   # edit
   # update
