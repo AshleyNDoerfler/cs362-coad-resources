@@ -88,20 +88,60 @@ let(:organization) { create(:organization) }
     end
   end
 
-  describe "approve" do
+  describe "POST #approve" do
     before { sign_in admin_user }
 
     it "approves an organization" do
       organization.approve
       expect(organization).to be_approved
     end
+
+    context 'saved successfully' do
+      it 'redirects to organizations_path' do
+        post(:approve, params: { id: organization.id })
+        expect(response).to redirect_to(organizations_path)
+      end
+
+      it 'sets a flash notice' do
+        post(:approve, params: { id: organization.id })
+        expect(flash[:notice]).to eq("Organization #{organization.name} has been approved.")
+      end
+    end
+
+    context 'not saved successfully' do
+      let(:organization_path) {}
+      before do
+        allow(organization).to receive(:save).and_return(false)
+      end
+
+      it 'renders organization_path' do
+        post(:approve, params: { id: organization.id })
+        expect(response).to render_template(organization_path)
+      end
+    end
+
   end
 
-# TODO
-# edit
-# update
-# show
-# approve
-# reject
+  describe "POST #reject" do
+    before { sign_in admin_user }
+
+    it "rejects an organization" do
+      organization.reject
+      expect(organization).to be_rejected
+    end
+
+    # context 'saved successfully' do
+    #   it 'redirects to organizations_path' do
+    #     post(:reject, params: { id: organization.id })
+    #     expect(response).to redirect_to(organizations_path)
+    #   end
+
+    #   it 'sets a flash notice' do
+    #     post(:reject, params: { id: organization.id })
+    #     expect(flash[:notice]).to eq("Organization #{organization.name} has been rejected.")
+    #   end
+    # end
+    
+  end
 
 end
