@@ -182,27 +182,44 @@ RSpec.describe TicketsController, type: :controller do
         expect(response).to be_successful
       end
     end
+
   end
 
-  # describe 'POST #release' do
-  #   context 'success' do
-  #     before do
-  #       sign_in(organization_approved)
-  #       allow(TicketService).to receive(:capture_ticket).and_return :ok
-  #     end
+  describe 'POST #release' do
+    context 'as a logged-out user' do
+      it 'redirects to dashboard' do
+        patch :release, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path
+      end
+    end
 
-  #     specify { expect(post(:release, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:organization' }
+    context 'as a logged-in user' do
+      it 'redirects to dashboard' do
+        sign_in user
+        patch :release, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path
+      end
+    end
 
-  #     it {
-  #       expect(TicketService).to receive(:release_ticket).and_return(:error)
-  #       post(:release, params: {id: ticket.id})
-  #       expect(response).to be_successful
-  #     }
-  #   end
-  # end
+    context 'as a logged-in admin' do
+      it 'redirects to dashboard' do
+        sign_in admin
+        patch :release, params: { id: ticket.id }
+        expect(response).to redirect_to dashboard_path 
+      end
+    end
+
+    context 'as a logged-in organization' do
+      it 'is successful' do
+        sign_in organization_approved
+        patch :release, params: { id: ticket.id }
+        expect(response).to be_successful
+      end
+    end
+  end
 
 
-# release 
+
 # close 
 # destroy 
 
