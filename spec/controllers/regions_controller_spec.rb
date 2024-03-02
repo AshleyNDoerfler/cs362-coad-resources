@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RegionsController, type: :controller do
   let(:admin) { create(:user, :admin, email: "email@gmail.com") }
+  let(:region) { create(:region) }
 
   context 'as an admin user' do
     before(:each) { sign_in(admin) }
@@ -51,15 +52,26 @@ RSpec.describe RegionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:region) { create(:region) }
-
     before(:each) { sign_in(admin) }
     specify { expect(get(:show, params: { id: region.id })).to be_successful }
   end
-  
+
+  describe 'PATCH #update' do
+    context 'success' do
+      let(:params) { { id: region.id, region: attributes_for(:region) } }
+      before(:each) { sign_in(admin) }
+      specify { expect(patch(:update, params: params)).to redirect_to region_path(region) }
+    end
+
+    context 'failure' do
+      let(:params) { { id: region.id, region: attributes_for(:region, name: nil, description: nil) } }
+      before(:each) { sign_in(admin) }
+      specify { expect(patch(:update, params: params)).to be_successful }
+    end
+  end
+
 
   # TODO
-  # show
   # update
   # destroy
 
