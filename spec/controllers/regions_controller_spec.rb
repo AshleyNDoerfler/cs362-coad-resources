@@ -70,9 +70,9 @@ RSpec.describe RegionsController, type: :controller do
     end
   end
 
-
-  # TODO
-  # update
-  # destroy
+  describe 'DELETE #destroy' do
+    before(:each) { sign_in(admin) }
+    specify { expect(delete(:destroy, params: { id: region.id })).to redirect_to regions_path }
+  end
 
 end
