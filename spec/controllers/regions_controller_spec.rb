@@ -28,7 +28,16 @@ RSpec.describe RegionsController, type: :controller do
     specify { expect(get(:edit, params: { id: region.id })).to be_successful }
   end
 
+  describe 'GET #index' do
+    context 'while logged in' do
+      before(:each) { sign_in(admin) }
+      specify { expect(get(:index)).to be_successful }
+    end
 
+    context 'while logged out' do
+      specify { expect(get(:index)).to redirect_to(new_user_session_path) }
+    end
+  end
 
 
   # TODO
