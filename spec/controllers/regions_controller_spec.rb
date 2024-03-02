@@ -50,9 +50,16 @@ RSpec.describe RegionsController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    let(:region) { create(:region) }
+
+    before(:each) { sign_in(admin) }
+    specify { expect(get(:show, params: { id: region.id })).to be_successful }
+  end
+  
+
   # TODO
   # show
-  # new
   # update
   # destroy
 
