@@ -39,9 +39,18 @@ RSpec.describe RegionsController, type: :controller do
     end
   end
 
+  describe 'GET #new' do
+    context 'while logged in' do
+      before(:each) { sign_in(admin) }
+      specify { expect(get(:new)).to be_successful }
+    end
+
+    context 'while logged out' do
+      specify { expect(get(:new)).to redirect_to(new_user_session_path) }
+    end
+  end
 
   # TODO
-  # index
   # show
   # new
   # update
