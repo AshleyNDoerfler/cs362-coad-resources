@@ -4,6 +4,7 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   let(:user) { create(:user, email: "email@gmail.com") } # Assuming you have a factory for users
   let(:admin) { create(:admin) } # Assuming you have a factory for admins
   let(:valid_attributes) { attributes_for(:resource_category) } # Assuming you have a factory for resource categories
+  let(:resource_category) { create(:resource_category) } # Assuming you have a factory for resource categories
 
   describe 'GET #index' do
     context 'while logged out' do
@@ -31,6 +32,37 @@ RSpec.describe ResourceCategoriesController, type: :controller do
         sign_in(user)
       end
       it { expect(get(:new)).to redirect_to(dashboard_path) }
+    end
+  end
+
+  describe 'POST #create' do
+    before(:each) do
+      user.confirm
+      sign_in(user)
+    end
+
+    context 'while save is successful' do
+      before(:each) do
+        user.confirm
+        sign_in(user)
+      end
+      it { expect(post(:create, params: { resource_category: valid_attributes })).to redirect_to(dashboard_path) }
+      
+      it 'gives a success message' do
+        post(:create, params: { resource_category: valid_attributes })
+        expect(flash[:notice]) == 'Category successfully created.'
+      end
+    end
+
+    context 'not saved successfully' do
+      before do
+        allow(resource_category).to receive(:save).and_return(false)
+      end
+
+      it 'renders new' do
+        post(:create, params: { resource_category: valid_attributes })
+        expect(response).to redirect_to(dashboard_path)
+      end
     end
   end
 
