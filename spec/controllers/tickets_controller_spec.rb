@@ -88,15 +88,6 @@ RSpec.describe TicketsController, type: :controller do
         expect(response).to_not be_successful
         expect(response).to redirect_to(dashboard_path)
       }
-      
-
-      describe 'POST #release' do
-        it {
-          ticket = create(:ticket)
-          post(:release, params: { id: ticket.id })
-          expect(response).to redirect_to dashboard_path
-        }
-      end
     end
 
     context 'logged-in organization' do

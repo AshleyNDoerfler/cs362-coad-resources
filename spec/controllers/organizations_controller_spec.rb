@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
 
-# NOTE: may need "Devise gem"
 let(:user) { create(:user, email: "email@gmail.com") }
 let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
+let(:organization) { create(:organization) }
 
   describe "GET #index" do
     context "while logged in" do
@@ -27,12 +27,6 @@ let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
       before(:each) { sign_in(user) }
       it { expect(get(:new)).to be_successful }
     end
-
-    # TODO: Fix this test
-    # context "while logged in as admin" do
-    #   before(:each) { sign_in(admin_user) }
-    #   it { expect(get(:new)).to be_successful }
-    # end
 
     context "while logged out" do
       it { expect(get(:new)).to redirect_to(new_user_session_path) }
@@ -81,10 +75,29 @@ let(:admin_user) { create(:user, :admin, email: "email@gmail.com") }
 
   end
 
+  describe "POST #update" do
+    before { sign_in user }
+
+      context 'with valid params' do
+        let(:valid_params) { { name: 'Updated Organization Name' } }
+
+        it 'redirects to organization_path' do
+          post(:update, params: { id: organization.id, organization: valid_params })
+          expect(response).to redirect_to(dashboard_path)
+        end
+    end
+  end
+
+  describe "approve" do
+    before { sign_in admin_user }
+
+    it "approves an organization" do
+      organization.approve
+      expect(organization).to be_approved
+    end
+  end
 
 # TODO
-# new
-# create
 # edit
 # update
 # show
