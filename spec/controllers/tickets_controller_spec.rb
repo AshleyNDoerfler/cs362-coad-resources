@@ -21,7 +21,6 @@ RSpec.describe TicketsController, type: :controller do
     it { expect(get(:show, params: { id: ticket.id })).to be_successful }
   end
 
-
   describe 'POST #create' do
     let(:region) { create(:region) }
     let(:resource_category) { create(:resource_category) }
@@ -57,7 +56,6 @@ RSpec.describe TicketsController, type: :controller do
       specify { expect(post(:create, params: params)).to be_successful }
     end
   end
-
 
   describe 'POST #capture' do
     context 'success' do
@@ -214,6 +212,16 @@ RSpec.describe TicketsController, type: :controller do
         sign_in organization_approved
         patch :release, params: { id: ticket.id }
         expect(response).to be_successful
+      end
+    end
+
+    context 'when releasing is not successful' do
+      it 'renders the show template' do
+        allow(TicketService).to receive(:release_ticket).and_return(:some_failure_symbol)
+        
+        sign_in organization_approved
+        patch :release, params: { id: ticket.id }
+        expect(response).to render_template(:show)
       end
     end
   end
