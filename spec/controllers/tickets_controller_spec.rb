@@ -226,9 +226,23 @@ RSpec.describe TicketsController, type: :controller do
     end
   end
 
+  describe 'DELETE #destroy' do
+    it 'deletes the ticket' do
+      sign_in admin
+      delete :destroy, params: { id: ticket.id }
+      expect(response).to redirect_to dashboard_path << '#tickets'
+    end
 
+    it 'redirects to dashboard' do
+      delete :destroy, params: { id: ticket.id }
+      expect(response).to redirect_to dashboard_path
+    end
 
-# close 
-# destroy 
+    it 'gives a notice' do
+      sign_in admin
+      delete :destroy, params: { id: ticket.id }
+      expect(flash[:notice]).to eq("Ticket #{ticket.id} was deleted.")
+    end
+  end
 
 end
