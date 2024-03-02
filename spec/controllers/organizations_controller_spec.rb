@@ -129,18 +129,6 @@ let(:organization) { create(:organization) }
       organization.reject
       expect(organization).to be_rejected
     end
-
-    # context 'saved successfully' do
-    #   it 'redirects to organizations_path' do
-    #     post(:reject, params: { id: organization.id })
-    #     expect(response).to redirect_to(organizations_path)
-    #   end
-
-    #   it 'sets a flash notice' do
-    #     post(:reject, params: { id: organization.id })
-    #     expect(flash[:notice]).to eq("Organization #{organization.name} has been rejected.")
-    #   end
-    # end
     
   end
 

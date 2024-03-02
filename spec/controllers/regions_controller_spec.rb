@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RegionsController, type: :controller do
+  let(:admin) { create(:user, :admin, email: "email@gmail.com") }
 
   context 'as an admin user' do
-    let(:admin) { create(:user, :admin, email: "email@gmail.com") }
     before(:each) { sign_in(admin) }
 
     describe 'POST #create' do
@@ -20,11 +20,21 @@ RSpec.describe RegionsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #edit' do
+    let(:region) { create(:region) }
+    
+    before(:each) { sign_in(admin) }
+    specify { expect(get(:edit, params: { id: region.id })).to be_successful }
+  end
+
+
+
+
   # TODO
   # index
   # show
   # new
-  # edit
   # update
   # destroy
 
