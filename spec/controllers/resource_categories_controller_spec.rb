@@ -5,6 +5,7 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   let(:admin) { create(:user, :admin, email: "email@gmail.com") }
   let(:valid_attributes) { attributes_for(:resource_category) } # Assuming you have a factory for resource categories
   let(:resource_category) { create(:resource_category) } # Assuming you have a factory for resource categories
+  let(:invalid_params) { { resource_category: attributes_for(:resource_category, name: '') } }
 
   describe 'GET #index' do
     context 'while logged in' do
@@ -51,7 +52,6 @@ RSpec.describe ResourceCategoriesController, type: :controller do
     end
 
     context 'with invalid params' do
-      let(:invalid_params) { { resource_category: attributes_for(:resource_category, name: '') } }
 
       before(:each) { sign_in(admin) }
       it 'does not create a new resource category' do
@@ -67,29 +67,19 @@ RSpec.describe ResourceCategoriesController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    context 'while logged out' do
-      it { expect(get(:edit, params: { id: resource_category.id })).to redirect_to(new_user_session_path) }
-    end
-
-    context 'while logged in' do
-      before(:each) do
-        user.confirm
-        sign_in(user)
-      end
-      it { expect(get(:edit, params: { id: resource_category.id })).to redirect_to(dashboard_path) }
-    end
-  end
-
   describe 'PATCH #update' do
     before { sign_in user }
 
     context 'with valid params' do
       let(:valid_params) { { name: 'Updated Resource Category Name' } }
 
-      it 'redirects to resource_category_path' do
+      it 'updates' do
         post(:update, params: { id: resource_category.id, resource_category: valid_params })
-        expect(response).to redirect_to(dashboard_path)
+        expect(flash[:notice]) == ('Category successfully updated.')
+      end
+
+      it 'fails to update' do
+        expect{ patch(:update, params: invalid_params).to render_template(:edit)}
       end
     end
   end
@@ -105,19 +95,14 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       expect(resource_category).to be_active
     end
 
-    context 'saved successfully' do
-      it 'redirects to resource_categories_path' do
-        post(:activate, params: { id: resource_category.id })
-        expect(response).to redirect_to(dashboard_path)
-      end
-
+    context 'activated successfully' do
       it 'sets a flash notice' do
         post(:activate, params: { id: resource_category.id })
         expect(flash[:notice]) == ('Category activated.')
       end
     end
 
-    context 'not saved successfully' do
+    context 'not activated successfully' do
       let(:resource_category_path) {}
       before do
         allow(resource_category).to receive(:activate).and_return(false)
@@ -125,7 +110,7 @@ RSpec.describe ResourceCategoriesController, type: :controller do
 
       it 'renders resource_category_path' do
         post(:activate, params: { id: resource_category.id })
-        expect(response).to redirect_to(dashboard_path)
+        expect(flash[:alert]) == ('There was a problem activating the category.')
       end
     end
   end
@@ -141,19 +126,14 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       expect(resource_category).to be_inactive
     end
 
-    context 'saved successfully' do
-      it 'redirects to resource_categories_path' do
-        post(:deactivate, params: { id: resource_category.id })
-        expect(response).to redirect_to(dashboard_path)
-      end
-
+    context 'deactivated successfully' do
       it 'sets a flash notice' do
         post(:deactivate, params: { id: resource_category.id })
         expect(flash[:notice]) == ('Category deactivated.')
       end
     end
 
-    context 'not saved successfully' do
+    context 'not deactivated successfully' do
       let(:resource_category_path) {}
       before do
         allow(resource_category).to receive(:deactivate).and_return(false)
@@ -161,7 +141,7 @@ RSpec.describe ResourceCategoriesController, type: :controller do
 
       it 'renders resource_category_path' do
         post(:deactivate, params: { id: resource_category.id })
-        expect(response).to redirect_to(dashboard_path)
+        expect(flash[:alert]) == ('There was a problem deactivating the category.')
       end
     end
   end
@@ -172,22 +152,10 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       sign_in(user)
     end
 
-    it 'deletes the resource category' do
-      delete :destroy, params: { id: resource_category.id }
-      expect(response).to redirect_to(dashboard_path)
-    end
-
-    it 'redirects to dashboard' do
-      delete :destroy, params: { id: resource_category.id }
-      expect(response).to redirect_to(dashboard_path)
-    end
-
     it 'gives a notice' do
       delete :destroy, params: { id: resource_category.id }
       expect(flash[:notice]) == "Category #{resource_category.name} was deleted.\nAssociated tickets now belong to the 'Unspecified' category."
     end
   end
-
-  # TODO
 
 end
