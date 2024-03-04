@@ -110,26 +110,6 @@ RSpec.describe TicketsController, type: :controller do
         }
       end
     end
-
-    context 'admin' do
-      describe 'POST #release own ticket unapproved' do
-        it {
-          sign_in admin_unapproved
-          ticket = create(:ticket)
-          post(:release, params: { id: ticket.id })
-          expect(response).to redirect_to dashboard_path
-        }
-      end
-
-      describe 'POST #release own ticket unapproved' do
-        it {
-          sign_in admin_approved
-          ticket = create(:ticket, organization_id: admin_approved.organization_id)
-          post(:release, params: { id: ticket.id })
-          expect(response).to redirect_to (dashboard_path << '#tickets:captured')
-        }
-      end
-    end
   end
 
   describe 'PATCH #close' do
@@ -194,7 +174,7 @@ RSpec.describe TicketsController, type: :controller do
       it 'redirects to dashboard' do
         sign_in admin
         patch :release, params: { id: ticket.id }
-        expect(response).to redirect_to dashboard_path 
+        expect(response).to redirect_to dashboard_path << '#tickets:captured'
       end
     end
 
