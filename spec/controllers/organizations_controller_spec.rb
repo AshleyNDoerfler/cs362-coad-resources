@@ -125,11 +125,44 @@ let(:organization) { create(:organization) }
   describe "POST #reject" do
     before { sign_in admin_user }
 
-    it "rejects an organization" do
-      organization.reject
-      expect(organization).to be_rejected
+    let(:organization) { create(:organization) }
+    let(:valid_params) do
+      {
+        id: organization.id,
+        organization: {
+          rejection_reason: "Some reason for rejection"
+        }
+      }
     end
-    
+
+    it "rejects an organization" do
+      post(:reject, params: valid_params)
+      expect(organization.reload).to be_rejected
+    end
+
+    context 'saved successfully' do
+      it 'redirects to organizations_path' do
+        post(:reject, params: valid_params)
+        expect(response).to redirect_to(organizations_path)
+      end
+
+      it 'sets a flash notice' do
+        post(:reject, params: valid_params)
+        expect(flash[:notice]).to eq("Organization #{organization.name} has been rejected.")
+      end
+    end
+
+    context 'not saved successfully' do
+      before do
+        allow(organization).to receive(:save).and_return(false)
+      end
+
+      it 'renders organization_path' do
+        before { allow(organization).to receive(:save).and_return(false) }
+        post(:reject, params: valid_params)
+        expect(response).to render_template(organization_path)
+      end
+    end
   end
 
 end
