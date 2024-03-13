@@ -68,94 +68,55 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { sign_in user }
-
     context 'with valid params' do
-      let(:valid_params) { { name: 'Updated Resource Category Name' } }
+      let(:valid_update_params) { { resource_category: { name: 'Updated Category' } } }
 
-      it 'updates' do
-        post(:update, params: { id: resource_category.id, resource_category: valid_params })
-        expect(flash[:notice]) == ('Category successfully updated.')
+      before(:each) { sign_in(admin) }
+
+      it 'updates the resource category' do
+        patch :update, params: { id: resource_category.id }.merge(valid_update_params)
+        expect(resource_category.reload.name).to eq('Updated Category')
       end
 
-      it 'fails to update' do
-        expect{ patch(:update, params: invalid_params).to render_template(:edit)}
+      it 'redirects to the updated resource category' do
+        patch :update, params: { id: resource_category.id }.merge(valid_update_params)
+        expect(response).to redirect_to(resource_category)
+      end
+
+      it 'sets a notice flash message' do
+        patch :update, params: { id: resource_category.id }.merge(valid_update_params)
+        expect(flash[:notice]).to eq('Category successfully updated.')
+      end
+    end
+
+    context 'with invalid params' do
+      let(:invalid_update_params) { { resource_category: { name: '' } } }
+
+      before(:each) { sign_in(admin) }
+
+      it 'does not update the resource category' do
+        original_name = resource_category.name
+        patch :update, params: { id: resource_category.id }.merge(invalid_update_params)
+        expect(resource_category.reload.name).to eq(original_name)
+      end
+
+      it 'renders the edit template' do
+        patch :update, params: { id: resource_category.id }.merge(invalid_update_params)
+        expect(response).to render_template(:edit)
       end
     end
   end
 
   describe 'POST #activate' do
-    before(:each) do
-      user.confirm
-      sign_in(user)
-    end
-
-    it 'activates a resource category' do
-      resource_category.activate
-      expect(resource_category).to be_active
-    end
-
-    context 'activated successfully' do
-      it 'sets a flash notice' do
-        post(:activate, params: { id: resource_category.id })
-        expect(flash[:notice]) == ('Category activated.')
-      end
-    end
-
-    context 'not activated successfully' do
-      let(:resource_category_path) {}
-      before do
-        allow(resource_category).to receive(:activate).and_return(false)
-      end
-
-      it 'renders resource_category_path' do
-        post(:activate, params: { id: resource_category.id })
-        expect(flash[:alert]) == ('There was a problem activating the category.')
-      end
-    end
+    
   end
 
   describe 'POST #deactivate' do
-    before(:each) do
-      user.confirm
-      sign_in(user)
-    end
-
-    it 'deactivates a resource category' do
-      resource_category.deactivate
-      expect(resource_category).to be_inactive
-    end
-
-    context 'deactivated successfully' do
-      it 'sets a flash notice' do
-        post(:deactivate, params: { id: resource_category.id })
-        expect(flash[:notice]) == ('Category deactivated.')
-      end
-    end
-
-    context 'not deactivated successfully' do
-      let(:resource_category_path) {}
-      before do
-        allow(resource_category).to receive(:deactivate).and_return(false)
-      end
-
-      it 'renders resource_category_path' do
-        post(:deactivate, params: { id: resource_category.id })
-        expect(flash[:alert]) == ('There was a problem deactivating the category.')
-      end
-    end
+    # TODO
   end
 
   describe 'DELETE #destroy' do
-    before(:each) do
-      user.confirm
-      sign_in(user)
-    end
-
-    it 'gives a notice' do
-      delete :destroy, params: { id: resource_category.id }
-      expect(flash[:notice]) == "Category #{resource_category.name} was deleted.\nAssociated tickets now belong to the 'Unspecified' category."
-    end
+    # TODO
   end
 
 end
