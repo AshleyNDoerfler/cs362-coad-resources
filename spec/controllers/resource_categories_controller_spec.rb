@@ -146,7 +146,23 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    # TODO
+    before(:each) { sign_in(admin) }
+
+    it 'deletes the resource category' do
+      expect {
+        delete :destroy, params: { id: resource_category.id }
+      }.to change(ResourceCategory, :count).by(1)
+    end
+
+    it 'redirects to resource_categories_path' do
+      delete :destroy, params: { id: resource_category.id }
+      expect(response).to redirect_to(resource_categories_path)
+    end
+
+    it 'sets a notice flash message' do
+      delete :destroy, params: { id: resource_category.id }
+      expect(flash[:notice]).to eq("Category #{resource_category.name} was deleted.\nAssociated tickets now belong to the 'Unspecified' category.")
+    end
   end
 
 end
