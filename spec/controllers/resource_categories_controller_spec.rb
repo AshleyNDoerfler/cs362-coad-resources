@@ -108,7 +108,22 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   end
 
   describe 'POST #activate' do
-    
+    before(:each) { sign_in(admin) }
+
+    it 'activates the resource category' do
+      post :activate, params: { id: resource_category.id }
+      expect(resource_category.reload.active?).to be(true)
+    end
+
+    it 'redirects to the activated resource category' do
+      post :activate, params: { id: resource_category.id }
+      expect(response).to redirect_to(resource_category)
+    end
+
+    it 'sets a notice flash message' do
+      post :activate, params: { id: resource_category.id }
+      expect(flash[:notice]).to eq('Category activated.')
+    end
   end
 
   describe 'POST #deactivate' do
