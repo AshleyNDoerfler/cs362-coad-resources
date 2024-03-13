@@ -127,7 +127,22 @@ RSpec.describe ResourceCategoriesController, type: :controller do
   end
 
   describe 'POST #deactivate' do
-    # TODO
+    before(:each) { sign_in(admin) }
+
+    it 'deactivates the resource category' do
+      post :deactivate, params: { id: resource_category.id }
+      expect(resource_category.reload.active?).to be(false)
+    end
+
+    it 'redirects to the deactivated resource category' do
+      post :deactivate, params: { id: resource_category.id }
+      expect(response).to redirect_to(resource_category)
+    end
+
+    it 'sets a notice flash message' do
+      post :deactivate, params: { id: resource_category.id }
+      expect(flash[:notice]).to eq('Category deactivated.')
+    end
   end
 
   describe 'DELETE #destroy' do
