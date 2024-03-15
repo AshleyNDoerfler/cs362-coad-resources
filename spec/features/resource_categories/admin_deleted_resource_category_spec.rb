@@ -12,7 +12,7 @@ RSpec.describe 'Deleting a Resource Category', type: :feature do
       click_on resource_category.name
       expect(page).to have_content(resource_category.name)
       click_on 'Delete'
-      expect(page).to have_content('Category' + ' ' + resource_category.name + ' ' + 'was deleted.')
+      expect(page).to have_content('Category ' + resource_category.name + ' was deleted.')
     end
   end
 
